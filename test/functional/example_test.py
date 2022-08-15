@@ -142,6 +142,11 @@ class ExampleTest(BitcoinTestFramework):
         self.log.info("Running custom_method")
 
     def run_test(self):
+        """ node 1 to mine another block, send it to node 2, and check that node 2 received it. """
+        self.nodes[0].generate(1)
+        self.sync_blocks()
+        # check if node 2 recieved it
+        assert_equal(self.nodes[1].getbestblockhash(), self.nodes[2].getbestblockhash())
         """Main test logic"""
 
         # Create P2P connections will wait for a verack to make sure the connection is fully up
